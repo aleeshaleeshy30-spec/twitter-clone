@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Clone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left">
+            <div class="logo">
+                <i class="fab fa-twitter"></i>
+                <span>Twitter Clone</span>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#" class="nav-item active" onclick="showPage('home')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('explore')">
+                    <i class="fas fa-hashtag"></i>
+                    <span>Explore</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('notifications')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('messages')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showProfile()">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <button class="tweet-btn" onclick="focusTweetInput()">
+                <i class="fas fa-feather-alt"></i>
+                <span>Tweet</span>
+            </button>
+            
+            <div class="current-user">
+                <img src="https://ui-avatars.com/api/?name=Current+User&background=1da1f2&color=fff" alt="Current User" id="currentUserAvatar">
+                <div class="user-info">
+                    <div class="name" id="currentUserName">Current User</div>
+                    <div class="username" id="currentUserHandle">@currentuser</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- HOME PAGE -->
+            <div id="homePage" class="page active">
+                <header class="page-header">
+                    <h2>Home</h2>
+                </header>
+                
+                <!-- Tweet Creation Box -->
+                <div class="tweet-creator">
+                    <img src="https://ui-avatars.com/api/?name=Current+User&background=1da1f2&color=fff" alt="Current User" class="avatar">
+                    <div class="tweet-input-area">
+                        <textarea id="tweetInput" placeholder="What's happening?" rows="3"></textarea>
+                        <div class="tweet-actions">
+                            <div class="tweet-options">
+                                <button class="icon-btn"><i class="fas fa-image"></i></button>
+                                <button class="icon-btn"><i class="fas fa-poll"></i></button>
+                                <button class="icon-btn"><i class="fas fa-smile"></i></button>
+                                <button class="icon-btn"><i class="fas fa-calendar"></i></button>
+                            </div>
+                            <button class="btn-primary" onclick="createTweet()">Tweet</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tweets Feed -->
+                <div class="tweets-feed" id="tweetsFeed">
+                    <!-- Tweets will be loaded here dynamically -->
+                </div>
+            </div>
+
+            <!-- PROFILE PAGE -->
+            <div id="profilePage" class="page">
+                <header class="page-header">
+                    <h2 id="profileName">Profile</h2>
+                </header>
+                
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-banner"></div>
+                        <div class="profile-info">
+                            <img src="https://ui-avatars.com/api/?name=Current+User&background=1da1f2&color=fff" alt="Profile" class="profile-avatar" id="profileAvatar">
+                            <div class="profile-actions">
+                                <button class="btn-secondary" onclick="editProfile()">Edit Profile</button>
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <h1 id="profileDisplayName">Current User</h1>
+                            <p id="profileUsernameDisplay">@currentuser</p>
+                            <p class="profile-bio" id="profileBio">Welcome to my profile! 🐦</p>
+                            <div class="profile-stats">
+                                <div class="stat">
+                                    <strong id="followingCount">0</strong>
+                                    <span>Following</span>
+                                </div>
+                                <div class="stat">
+                                    <strong id="followersCount">0</strong>
+                                    <span>Followers</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-tabs">
+                        <button class="tab active">Tweets</button>
+                        <button class="tab">Replies</button>
+                        <button class="tab">Media</button>
+                        <button class="tab">Likes</button>
+                    </div>
+                    
+                    <div class="profile-tweets" id="profileTweets">
+                        <!-- User's tweets will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXPLORE PAGE -->
+            <div id="explorePage" class="page">
+                <header class="page-header">
+                    <h2>Explore</h2>
+                </header>
+                <div class="search-container">
+                    <input type="text" placeholder="Search Twitter" class="search-input">
+                </div>
+                <div class="trending-section">
+                    <h3>Trending for you</h3>
+                    <div class="trending-item">
+                        <span class="trend-category">Technology · Trending</span>
+                        <h4>#WebDevelopment</h4>
+                        <span class="trend-count">125K tweets</span>
+                    </div>
+                    <div class="trending-item">
+                        <span class="trend-category">Sports · Trending</span>
+                        <h4>#Championship2026</h4>
+                        <span class="trend-count">89K tweets</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOTIFICATIONS PAGE -->
+            <div id="notificationsPage" class="page">
+                <header class="page-header">
+                    <h2>Notifications</h2>
+                </header>
+                <div class="notifications-list" id="notificationsList">
+                    <p class="empty-state">No notifications yet</p>
+                </div>
+            </div>
+
+            <!-- MESSAGES PAGE -->
+            <div id="messagesPage" class="page">
+                <header class="page-header">
+                    <h2>Messages</h2>
+                </header>
+                <div class="messages-list">
+                    <p class="empty-state">No messages yet</p>
+                </div>
+            </div>
+
+            <!-- SETTINGS PAGE -->
+            <div id="settingsPage" class="page">
+                <header class="page-header">
+                    <h2>Settings</h2>
+                </header>
+                <div class="settings-container">
+                    <div class="setting-item">
+                        <h3>Account Settings</h3>
+                        <button class="btn-secondary" onclick="editProfile()">Edit Profile</button>
+                    </div>
+                    <div class="setting-item">
+                        <h3>Privacy</h3>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                            <span>Protect your tweets</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <h3>Notifications</h3>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                            <span>Email notifications</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search Twitter">
+            </div>
+            
+            <div class="trending-box">
+                <h3>Trends for you</h3>
+                <div class="trending-item">
+                    <span class="trend-category">Technology · Trending</span>
+                    <h4>#WebDevelopment</h4>
+                    <span class="trend-count">125K tweets</span>
+                </div>
+                <div class="trending-item">
+                    <span class="trend-category">Sports · Trending</span>
+                    <h4>#Championship2026</h4>
+                    <span class="trend-count">89K tweets</span>
+                </div>
+                <div class="trending-item">
+                    <span class="trend-category">Entertainment · Trending</span>
+                    <h4>#NewMovie2026</h4>
+                    <span class="trend-count">56K tweets</span>
+                </div>
+            </div>
+            
+            <div class="who-to-follow">
+                <h3>Who to follow</h3>
+                <div id="suggestedUsers">
+                    <!-- Suggested users will be loaded here -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Edit Tweet Modal -->
+    <div class="modal" id="editTweetModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeEditModal()">&times;</button>
+            <h3>Edit Tweet</h3>
+            <textarea id="editTweetInput" rows="4"></textarea>
+            <button class="btn-primary" onclick="saveEditedTweet()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeProfileModal()">&times;</button>
+            <h3>Edit Profile</h3>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="editBio" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
